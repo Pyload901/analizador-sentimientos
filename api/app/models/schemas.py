@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, List
 from enum import Enum
 
@@ -18,7 +18,7 @@ class TemaEnum(str, Enum):
 class MensajeBase(BaseModel):
     texto_mensaje: str
     numero_remitente: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class MensajeIA(BaseModel):
     sentimiento: SentimientoEnum

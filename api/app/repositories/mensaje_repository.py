@@ -1,5 +1,5 @@
 from app.database import db
-from datetime import datetime
+from datetime import datetime, timezone
 from bson import ObjectId
 
 class MensajeRepository:
@@ -11,7 +11,7 @@ class MensajeRepository:
         doc = {
             "texto_mensaje": texto,
             "numero_remitente": remitente,
-            "timestamp": datetime.utcnow()
+            "timestamp": datetime.now(timezone.utc)
         }
         result = await collection.insert_one(doc)
         return str(result.inserted_id)
@@ -33,6 +33,9 @@ class MensajeRepository:
         mensajes = []
         async for doc in cursor:
             doc["_id"] = str(doc["_id"])
+            if "timestamp" in doc and isinstance(doc["timestamp"], datetime):
+                if doc["timestamp"].tzinfo is None:
+                    doc["timestamp"] = doc["timestamp"].replace(tzinfo=timezone.utc)
             mensajes.append(doc)
         return mensajes
 
