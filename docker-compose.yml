@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # 1. Contenedor Frontend (React CSR)
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: analizador-web
+    ports:
+      - "3000:3000"
+    networks:
+      - analizador-network
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  # 2. Contenedor Backend Principal (FastAPI)
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: analizador-api
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URI=${MONGO_URI}
+      - IA_SERVICE_URL=${IA_SERVICE_URL}
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+    networks:
+      - analizador-network
+    depends_on:
+      - mongodb
+      - llm_service
+    restart: unless-stopped
+
+  # 3. Contenedor Microservicio IA (FastAPI)
+  llm_service:
+    build:
+      context: ./llm_service
+      dockerfile: Dockerfile
+    container_name: llm_service
+    ports:
+      - "8001:8001"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+      - AI_MODEL=${AI_MODEL}
+    networks:
+      - analizador-network
+    restart: unless-stopped
+
+  # 4. Contenedor Base de Datos (MongoDB)
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - analizador-network
+    restart: unless-stopped
+
+networks:
+  analizador-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
