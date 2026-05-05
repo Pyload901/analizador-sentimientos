@@ -275,6 +275,10 @@ body {
   background: var(--negative-dim);
 }
 
+.kpi-icon.neutral {
+  background: var(--neutral-dim);
+}
+
 .kpi-value {
   font-size: 2.75rem;
   font-weight: 800;
@@ -288,6 +292,10 @@ body {
 
 .kpi-value.negative {
   color: var(--negative);
+}
+
+.kpi-value.neutral {
+  color: var(--neutral);
 }
 
 .kpi-label {
