@@ -24,13 +24,13 @@ export const MessageFeed = ({ mensajes }) => {
         {mensajes.length > itemsPerPage && (
           <div className="pagination-controls" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
             <button className="btn-page" onClick={handlePrev} disabled={currentPage === 1}>
-              ← Anterior
+              ←
             </button>
             <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 500 }}>
               {currentPage} / {totalPages || 1}
             </span>
             <button className="btn-page" onClick={handleNext} disabled={currentPage === totalPages || totalPages === 0}>
-              Siguiente →
+              →
             </button>
           </div>
         )}
