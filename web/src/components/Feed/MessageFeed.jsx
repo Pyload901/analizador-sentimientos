@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
+const formatDate = (timestamp) => {
+  return new Intl.DateTimeFormat('es-SV', {
+    timeZone: 'America/El_Salvador',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  }).format(new Date(timestamp)).replace('.', '');
+};
+
 export const MessageFeed = ({ mensajes }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -42,7 +54,7 @@ export const MessageFeed = ({ mensajes }) => {
             <div key={msg._id} className={`feed-item ${msg.sentimiento}`}>
               <div className="feed-header">
                 <span>De: {msg.numero_remitente}</span>
-                <span>{new Date(msg.timestamp).toLocaleString()}</span>
+                <span>{formatDate(msg.timestamp)}</span>
               </div>
               <div className="feed-text">{msg.texto_mensaje}</div>
               <div className="feed-footer">
