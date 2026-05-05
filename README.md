@@ -101,7 +101,9 @@ El microservicio IA usa un `SYSTEM_PROMPT` estricto que instruye al modelo a act
 - **Asincronismo completo:** Uso de `async/await` con `httpx` (llamadas HTTP a IA), `motor` (MongoDB) y el driver `openai` asíncrono para maximizar el throughput bajo carga de webhooks concurrentes.
 - **Sin autenticación para MVP:** No se implementó autenticación para el dashboard debido a que se trata de un MVP, por lo que se implementará en una futura versión.
 - **Docker Compose para todo**: Se utiliza docker compose para orquestar los 4 servicios (Frontend, Backend Core, Microservicio IA y MongoDB). Esto permite ejecutar el proyecto localmente sin problemas de versionamiento o dependencias. Además facilita el despliegue, monitoreo y mantenimiento de los servicios.
-
+- **FastAPI (Backend):** Seleccionado por su soporte nativo de asincronismo (crucial para manejar peticiones de I/O bloqueantes con la IA y MongoDB), validación de datos automática con Pydantic, y rendimiento comparable a NodeJS o Go. Además, el ecosistema de IA moderno se maneja nativamente en Python.
+- **React (Frontend):** Elegido por su modelo de componentes reutilizables y su gran ecosistema. Facilita la creación de una interfaz altamente reactiva y permite una integración sencilla de actualizaciones en tiempo real (gracias al manejo de estado y hooks como `useEffect` o librerías como React Query).
+- **Recharts (Visualización):** Se optó por Recharts sobre otras librerías (como Chart.js) porque está construida específicamente sobre React (es puramente declarativa), genera SVGs ligeros, y permite personalizar los tooltips y los colores dinámicamente usando componentes JSX estándar y el sistema de variables CSS puro del proyecto.
 ## 🧠 Mi enfoque en la ingeniería de prompts
 
 Para realizar un proyecto lo más importante es empezar con buenas decisiones, por lo que el primer paso que tomé fue analizar el requerimiento para evaluar qué se necesita, qué tecnologías utilizar y qué arquitectura tomar.
