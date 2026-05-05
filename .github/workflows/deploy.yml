@@ -1,0 +1,17 @@
+name: Auto Deploy via aaPanel Webhook
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Webhook
+        run: |
+          # Se utiliza -k (--insecure) en caso de que el panel IP utilice un certificado SSL autofirmado.
+          # -f y -s para que falle silenciosamente pero reporte el código de error al action si hay problemas.
+          curl -k -f -s -X GET "${{ secrets.SECRET_API }}"
