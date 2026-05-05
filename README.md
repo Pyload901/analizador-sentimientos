@@ -35,6 +35,8 @@ Este sistema está dividido en múltiples microservicios orquestados con Docker:
    | `AI_MODEL` | Modelo a usar (`gpt-4o`, `deepseek-chat`, etc.) |
    | `MONGO_URI` | URI de conexión a MongoDB |
    | `IA_SERVICE_URL` | URL interna del microservicio IA (no modificar si usas Docker Compose) |
+   | `VITE_API_URL` | *(Opcional)* URL pública de la API para el frontend en producción |
+   | `VITE_WS_URL` | *(Opcional)* URL pública de WebSockets para el frontend en producción |
 
 3. **Levantar todos los servicios**
    ```bash
