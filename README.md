@@ -46,6 +46,28 @@ Este sistema está dividido en múltiples microservicios orquestados con Docker:
    - **Microservicio IA**: http://localhost:8001
    - **MongoDB**: localhost:27017
 
+### 🔗 Conectar Twilio con la Aplicación
+
+Para que la aplicación reciba mensajes reales desde WhatsApp, necesitas que tu Backend Core sea accesible desde Internet y configurar esa URL en Twilio.
+
+1. **Obtener tu URL Pública:**
+   - **Despliegue en Producción:** Usa el dominio público o la IP de tu servidor (ej. `https://api.tu-dominio.com`).
+   - **Desarrollo Local:** Puedes exponer tu puerto 8000 usando herramientas como Ngrok o Cloudflare Tunnels:
+     ```bash
+     ngrok http 8000
+     ```
+     *(Copia la URL segura que Ngrok te proporciona, ej. `https://1a2b-3c4d.ngrok.io`).*
+
+2. **Configurar Twilio Sandbox:**
+   - Inicia sesión en [Twilio Console](https://www.twilio.com/console).
+   - Ve a **Messaging > Try it out > Send a WhatsApp message**.
+   - Accede a la pestaña **Sandbox settings**.
+   - En el campo **"WHEN A MESSAGE COMES IN"**, pega tu URL pública agregando la ruta del webhook. Ejemplos:
+     - Producción: `https://api.tu-dominio.com/api/webhook/twilio`
+     - Local (Ngrok): `https://tu-url-ngrok.io/api/webhook/twilio`
+   - Asegúrate de que el método HTTP seleccionado sea **HTTP POST**.
+   - Guarda los cambios. ¡Tu sistema ya está conectado y listo para recibir mensajes!
+
 ### Pruebas Locales (Sin Twilio)
 
 Puedes simular la recepción de un mensaje de WhatsApp usando el script incluido. Los caracteres especiales del español son soportados correctamente:
