@@ -6,6 +6,9 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL:-http://localhost:8000/api}
+        - VITE_WS_URL=${VITE_WS_URL:-ws://localhost:8000/api/ws}
     container_name: analizador-web
     ports:
       - "3000:3000"
