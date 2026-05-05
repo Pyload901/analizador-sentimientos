@@ -72,9 +72,33 @@ El microservicio IA usa un `SYSTEM_PROMPT` estricto que instruye al modelo a act
 ## 🔐 Decisiones Técnicas
 
 - **Soporte Multi-proveedor de IA:** El microservicio acepta `OPENAI_BASE_URL`, `OPENAI_API_KEY` y `AI_MODEL` como variables de entorno. Puedes cambiar entre OpenAI, Deepseek o cualquier proveedor compatible sin modificar el código.
-- **Aislamiento del LLM:** La lógica de IA está en su propio contenedor. Esto evita que latencias o errores de red hacia el proveedor de IA bloqueen la recepción de webhooks en el backend core.
+- **Aislamiento del LLM:** La lógica de IA está en su propio contenedor. Esto evita que latencias o errores de red hacia el proveedor de IA bloqueen la recepción de webhooks en el backend core y facilita el escalado independiente de cada microservicio.
 - **Event-Driven UI:** Al completarse el análisis asíncrono en el backend, se emite un broadcast WebSocket. El frontend lo recibe e invalida la caché de React Query, refetchando solo en ese momento.
 - **Asincronismo completo:** Uso de `async/await` con `httpx` (llamadas HTTP a IA), `motor` (MongoDB) y el driver `openai` asíncrono para maximizar el throughput bajo carga de webhooks concurrentes.
+- **Sin autenticación para MVP:** No se implementó autenticación para el dashboard debido a que se trata de un MVP, por lo que se implementará en una futura versión.
+- **Docker Compose para todo**: Se utiliza docker compose para orquestar los 4 servicios (Frontend, Backend Core, Microservicio IA y MongoDB). Esto permite ejecutar el proyecto localmente sin problemas de versionamiento o dependencias. Además facilita el despliegue, monitoreo y mantenimiento de los servicios.
+
+## 🧠 Mi enfoque en la ingeniería de prompts
+
+Para realizar un proyecto lo más importante es empezar con buenas decisiones, por lo que el primer paso que tomé fue analizar el requerimiento para evaluar qué se necesita, qué tecnologías utilizar y qué arquitectura tomar.
+
+En este proyecto se establecieron los lineamientos iniciales:
+- Arquitectura escalable.
+- Código limpio, modular y reutilizable.
+- Uso de tecnologías modernas y eficientes.
+- Documentación adecuada.
+
+Luego, trabajé en un prompt para generar el AGENTS.md que establece los lineamientos de los agentes para el desarrollo del proyecto. Este documento fue generado utilizando un LLM (específicamente Gemini 3.1 Pro).
+
+Posteriormente trabajé con un editor de IA nativo (Antigravity) para empezar el proyecto. El proyecto se trabajó en metodología ágil de la siguiente manera:
+
+- El agente toma el rol de project manager y dado el requerimiento y los lineamientos, genera un plan de trabajo divido en épicas e historias de usuario. (el plan de trabajo se encuentra en `/docs/implementation_plan_completed.md`)
+- El humano revisa el plan de trabajo y ajusta si es necesario.
+- Luego el agente toma el rol de desarrollador y analiza las tareas para implementarlas.
+- El humano verifica si las actividades realizadas son correctas y retroalimenta al agente para que pueda mejorar y corregir errores.
+- Este proceso se repite hasta que el proyecto esté completado.
+
+Mi rol también fue generar el entorno adecuado para que el agente pueda trabajar de manera eficiente y ahorrar unos cuantos tokens, preparé los servicios de docker, las variables de entorno y la infraestructura necesaria para el correcto funcionamiento del proyecto.
 
 ## 📁 Estructura del Proyecto
 
